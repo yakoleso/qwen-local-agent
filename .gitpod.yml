@@ -1,0 +1,16 @@
+image: gitpod/workspace-full:latest
+tasks:
+  - name: Setup & Run
+    init: |
+      echo "📦 Installing dependencies..."
+      sudo apt-get update && sudo apt-get install -y build-essential cmake libblas-dev libopenblas-dev
+      git clone https://github.com/ggerganov/llama.cpp
+      cd llama.cpp && make -j4
+      cd ..
+      wget https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/Qwen2.5-0.5B-Instruct-Q2_K.gguf -O model.gguf
+      chmod +x start.sh
+    command: ./start.sh
+ports:
+  - port: 8080
+    onOpen: open-browser
+    visibility: public
