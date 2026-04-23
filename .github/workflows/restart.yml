@@ -1,0 +1,19 @@
+name: Keep GitPod Alive
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Каждый день в 6:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Touch to trigger GitPod rebuild
+        run: |
+          date > keep-alive.txt
+          git config --global user.name "GitPod Keeper"
+          git config --global user.email "keep@alive"
+          git add keep-alive.txt
+          git commit -m "🤖 Auto-restart trigger $(date)"
+          git push
